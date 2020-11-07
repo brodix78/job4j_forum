@@ -2,12 +2,20 @@ package ru.job4j.forum.model;
 
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 
+import javax.persistence.*;
 import java.util.Calendar;
 import java.util.Objects;
 
+@Entity
+@Table(name = "posts")
 public class Post {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+
+    @Column(name = "description")
     private String desc;
     private Calendar created;
 

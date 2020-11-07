@@ -2,40 +2,43 @@ package ru.job4j.forum.service;
 
 import org.springframework.stereotype.Service;
 import ru.job4j.forum.model.Post;
+import ru.job4j.forum.repository.PostRepository;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class PostService {
 
-    private AtomicInteger id = new AtomicInteger(1);
+    private PostRepository posts;
 
-    private final Map<Integer, Post> posts = new HashMap<>();
-
-    public PostService() {
-        posts.put(1, Post.of("Продаю всякое"));
+    public PostService(PostRepository posts) {
+        this.posts = posts;
     }
 
     public List<Post> getAll() {
-        return new ArrayList<>(posts.values());
+        List<Post> rsl = new ArrayList<>();
+        posts.findAll().forEach(rsl::add);
+        return rsl;
     }
 
     public Post save(Post post) {
-        post.setId(id.incrementAndGet());
-        posts.put(post.getId(), post);
-        return post;
+        return posts.save(post);
     }
 
     public Post update(Post post) {
-        posts.put(post.getId(), post);
-        return post;
+        var rsl = posts.findById(post.getId());
+        if (rsl.isPresent()) {
+            return posts.save(post);
+        }
+        return null;
     }
 
     public Post findById(int id) {
-        return posts.get(id);
+        var rsl = posts.findById(id);
+        if (rsl.isPresent()) {
+            return rsl.get();
+        }
+        return null;
     }
 }

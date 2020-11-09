@@ -1,10 +1,15 @@
 package ru.job4j.forum.control;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.job4j.forum.model.User;
 import ru.job4j.forum.service.UserService;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class LoginControl {
@@ -27,21 +32,16 @@ public class LoginControl {
             errorMessage = "You have logged out";
         }
         model.addAttribute("errorMessage", errorMessage);
+        System.out.println(error + "  " + logout);
         return "login";
     }
 
-    @PostMapping("/login")
-    public String login(@ModelAttribute User user, Model model) {
-        String errorMessage = null;
-        if (users.check(user) == null) {
-            errorMessage = "Username or password is incorrect!";
+    @GetMapping("/logout")
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-        model.addAttribute("errorMessage", errorMessage);
-        return "login";
-    }
-
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logoutPage() {
         return "redirect:/login?logout=true";
     }
 }

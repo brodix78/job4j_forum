@@ -26,7 +26,7 @@ public class UserService {
     public User check(User user) {
         User rsl = null;
         for (User instance : users.values()) {
-            if (instance.getName().equals(user.getName()) && instance.getPassword().equals(user.getPassword())) {
+            if (instance.getUsername().equals(user.getUsername()) && instance.getPassword().equals(user.getPassword())) {
                 rsl = instance.safeCopy();
             }
         }

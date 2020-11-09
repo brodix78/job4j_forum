@@ -40,8 +40,9 @@
             <td colspan='2'><input name="submit" type="submit" value="submit" /></td>
         </tr>
     </table>
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 </form>
 <br />
-    <a href="<c:url value='//reg'/>">Регистрация</a>
+    <a href="<c:url value='/reg'/>">Регистрация</a>
 </body>
 </html>

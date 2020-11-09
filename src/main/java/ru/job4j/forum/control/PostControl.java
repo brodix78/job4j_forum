@@ -20,7 +20,7 @@ public class PostControl {
 
     @GetMapping("/create")
     public String create() {
-        return "accident/create";
+        return "post/create";
     }
 
     @PostMapping("/post/save")

@@ -1,7 +1,15 @@
-# используем язык java. Travis CI поддерживает другие языки тоже.
 language: java
 jdk:
-  - oraclejdk14
-
-# используем режим обычного пользователя для сборки проекта.
+- oraclejdk14
 sudo: false
+script: mvn clean package -DskipTests=true
+notifications:
+  email:
+    recipients: "-brodnikov1950@gmail.com"
+on_success: never
+on_failure: always
+deploy:
+  provider: heroku
+  api_key:
+    secure: XXWoTCrNtpjf/hMVUOuA8v48CENc+ycVfilfhZG2BkN6GjIzJAGFWaCB1P/KFplzEc/YMo9EF3nlDY7n5P3oCKBpK6am+VpoCTCXNJ6NEGafMIJIFU1wxhiIXaIXPQ/sRzXbbPtCwwCsVQULnB5tAPlOHP2UgdbXY2CpkXi5nU+xPWEjxwQ3XpMtf+xSrU128VHerx3Az1GFvmgdPabAGJAMqP6leATdiyHx2eWeeGW+7+G8tcZ7uH5Jwcayuwm05XQpKZp2TRqnx8pNB/SFzkLXacrOyY7FqfW4MHJ2LbIR+PG84198bSA48JFoizUe1p1J8QbIZaihL00Be9fdxQUL2d2/MzPCXze6zsPgVoV9hLRg7hyw61MRZrQr5IRHhjq1R1cbFvTioeZOJ+AIKRsq+ZKklH+rTFm1y/OJ7MR51wCvRstWpiiKJsnOy+DEBdkrGgXaTQL3VaJCtOgzEBwkhU2jY0QL8jWXPdhQfG5sC/urIVqXSEzBZOhgNJNcbTdStydCV9WyENxDV3yWiTWtMWdDMSnZdqwuijagSZdiFRVulvIRIkJ0yR8pZqj1Sd/EQXrQQbZO21rPTWWon3VVE24bcKaFbVHEtZ8dnIUJtYdy5M3yYoQDEUDSjkteJPbO4wk/3AF6r9vj8kqrJpgBr1K+sOJnok/cdY78JCg=
+  app: agile-gorge-30386
